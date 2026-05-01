@@ -282,7 +282,10 @@ export default function App() {
         {location.detailPage && (
           <>
             <hr />
-        <a className="read-more-btn" href={`${BASE_URL}${location.detailPage.replace(/^\/+/, "")}`}>
+        <a
+          className="read-more-btn"
+          href={`${BASE_URL}${location.detailPage.replace(/^\/+/, "")}`}
+        >
           Open local map
         </a>
           </>

@@ -20,7 +20,7 @@ export const villageOfBarovia ={
       { id: 'ismark', name: 'Ismark Kolyanovich' },
       { id: 'ireena', name: 'Ireena Kolyana' }
     ],
-    detailPage: 'barovia-village.html'
+    detailPage: 'local-maps/village-of-barovia/barovia-village.html'
   };
 
 export const entries = {

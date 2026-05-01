@@ -99,7 +99,7 @@
 </head>
 <body>
   <div class="top-left-controls">
-    <a href="/" class="nav-btn">Back to world map</a>
+    <a href="#" id="back-link" class="nav-btn">Back to world map</a>
   </div>
 
   <div id="map"></div>
@@ -122,6 +122,12 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
+    const basePath = window.location.hostname.endsWith("github.io")
+      ? "/cos-map/"
+      : "/";
+
+    document.getElementById("back-link").href = basePath;
+
     const map = L.map("map", {
       crs: L.CRS.Simple,
       minZoom: -2,
@@ -132,7 +138,7 @@
     const imageHeight = 2475;
     const bounds = [[0, 0], [imageHeight, imageWidth]];
 
-    L.imageOverlay("/barovia-village.jpg", bounds).addTo(map);
+    L.imageOverlay("./barovia-village.jpg", bounds).addTo(map);
     map.fitBounds(bounds);
 
     const debugCoordinates = document.getElementById("debug-coordinates");
