@@ -51,6 +51,7 @@ export default function App() {
   const [selectedLocationId, setSelectedLocationId] = useState(null);
   const [selectedEntryId, setSelectedEntryId] = useState(null);
   const [debugCoords, setDebugCoords] = useState(null);
+ const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
   useEffect(() => {
     if (mapInstanceRef.current) return;
@@ -208,7 +209,7 @@ export default function App() {
       </>
     );
   }
-
+  
   function renderLocationPanel(location) {
     const longText =
       location.longDescription ||
@@ -230,7 +231,7 @@ export default function App() {
         >
           Back
         </button>
-
+        
         <h2>{location.name}</h2>
         <div className="entry-type">{location.type}</div>
         <p>{longText}</p>
@@ -332,13 +333,31 @@ export default function App() {
       <div className="map-wrapper">
         <div ref={mapRef} id="map" />
         <TopOverlay />
+
+        {!isSidePanelOpen && (
+          <button
+            className="panel-reopen-btn"
+            onClick={() => setIsSidePanelOpen(true)}
+          >
+            Open Panel
+          </button>
+        )}
       </div>
 
-      <aside className="side-panel">
-        {!selectedLocation && !selectedEntry && renderOverviewPanel()}
-        {selectedLocation && !selectedEntry && renderLocationPanel(selectedLocation)}
-        {selectedEntry && renderEntryPanel(selectedEntry)}
-      </aside>
+      {isSidePanelOpen && (
+        <aside className="side-panel">
+          <button
+            className="panel-collapse-btn"
+            onClick={() => setIsSidePanelOpen(false)}
+          >
+            Close
+          </button>
+
+          {!selectedLocation && !selectedEntry && renderOverviewPanel()}
+          {selectedLocation && !selectedEntry && renderLocationPanel(selectedLocation)}
+          {selectedEntry && renderEntryPanel(selectedEntry)}
+        </aside>
+      )}
     </div>
   );
 }

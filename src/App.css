@@ -253,3 +253,25 @@ body {
 .overlay-panel h3 {
   margin-top: 0;
 }
+
+.panel-collapse-btn,
+.panel-reopen-btn {
+  position: absolute;
+  z-index: 1200;
+  background: rgba(15, 15, 15, 0.95);
+  color: #f2f2f2;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 8px;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+}
+
+.panel-collapse-btn {
+  top: 12px;
+  right: 12px;
+}
+
+.panel-reopen-btn {
+  top: 20px;
+  right: 20px;
+}
