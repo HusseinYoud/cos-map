@@ -9,20 +9,22 @@ import TopOverlay from "./assets/components/TopOverlay";
 const BASE_URL = import.meta.env.BASE_URL;
 
 function getIconPath(type) {
+  const base = import.meta.env.BASE_URL;
+
   switch (type) {
     case "town":
     case "village":
     case "settlement":
-      return "/icons/town-icon.png";
+      return `${base}icons/town-icon.png`;
 
     case "misc":
-      return "/icons/misc-icon.png";
+      return `${base}icons/misc-icon.png`;
 
     case "quest":
-      return "/icons/quest-icon.jpg";
+      return `${base}icons/quest-icon.jpg`;
 
     default:
-      return "/icons/town-icon.png";
+      return `${base}icons/town-icon.png`;
   }
 }
 
