@@ -5,13 +5,16 @@ import { locations, entries } from "./data/locations.js";
 import "./App.css";
 import TopOverlay from "./assets/components/TopOverlay";
 
+
+const BASE_URL = import.meta.env.BASE_URL;
+
 function getIconPath(type) {
   switch (type) {
     case "town":
     case "village":
     case "settlement":
     default:
-      return "/icons/town-icon.png";
+      return `${BASE_URL}icons/town-icon.png`;
   }
 }
 
@@ -64,7 +67,7 @@ export default function App() {
     const imageHeight = 3225;
     const bounds = [[0, 0], [imageHeight, imageWidth]];
 
-    L.imageOverlay("/barovia-map.jpg", bounds).addTo(map);
+    L.imageOverlay(`${BASE_URL}barovia-map.jpg`, bounds).addTo(map);
     map.fitBounds(bounds);
 
     map.on("click", (e) => {
@@ -141,19 +144,26 @@ export default function App() {
             </thead>
             <tbody>
               <tr>
-                <td><img src="/icons/town-icon.png" alt="Town Icon" style={{ width: "20px", height: "20px" }} /></td>
+                <td><img src={`${BASE_URL}icons/town-icon.png`} alt="Town Icon" style={{ width: "20px", height: "20px" }} /></td>
                 <td>Settlements</td>
                 <td>Town / Settlement</td>
               </tr>
               <tr>
-                <td><img src="/icons/castle-icon.png" alt="Castle Icon" style={{ width: "20px", height: "20px" }} /></td>
-                <td>Point of Interest</td>
-                <td>Non-quest related locations</td>
-              </tr>
-                <td><img src="/icons/quest-icon.png" alt="Quest Icon" style={{ width: "20px", height: "20px" }} /></td>
+                  <td>
+                    <img
+                      src={`${BASE_URL}icons/misc-icon.png`}
+                      alt="Misc Icon"
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                  </td>
+                  <td>Location of note</td>
+                  <td>Special / notable location</td>
+                </tr>
+              <tr>
+                <td><img src={`${BASE_URL}icons/quest-icon.png`} alt="Quest Icon" style={{ width: "20px", height: "20px" }} /></td>
                 <td>Quest Icon</td>
                 <td>Important quest location</td>
-  
+              </tr>
 
             </tbody>
           </table>
@@ -272,9 +282,9 @@ export default function App() {
         {location.detailPage && (
           <>
             <hr />
-            <a className="read-more-btn" href={location.detailPage}>
-              Open local map
-            </a>
+        <a className="read-more-btn" href={`${BASE_URL}${location.detailPage.replace(/^\/+/, "")}`}>
+          Open local map
+        </a>
           </>
         )}
 
