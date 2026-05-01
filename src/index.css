@@ -1,0 +1,80 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.app-shell {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+#map {
+  width: 100%;
+  height: 100vh;
+}
+
+.info-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 340px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: rgba(245, 245, 245, 0.96);
+  color: #111;
+  padding: 1rem;
+  border-radius: 12px;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.info-panel.expanded {
+  width: 75vw;
+}
+
+.panel-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.panel-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.panel-btn,
+.back-btn,
+.read-more-btn,
+.entry-link-button {
+  border: 1px solid #ccc;
+  background: white;
+  color: #111;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  font: inherit;
+}
+
+.entry-link-button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #1a4ea1;
+  text-decoration: underline;
+}
+
+.entry-type {
+  text-transform: capitalize;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.entry-list {
+  padding-left: 1.2rem;
+}
