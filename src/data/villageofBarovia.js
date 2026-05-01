@@ -20,7 +20,7 @@ export const villageOfBarovia ={
       { id: 'ismark', name: 'Ismark Kolyanovich' },
       { id: 'ireena', name: 'Ireena Kolyana' }
     ],
-    detailPage: 'local-maps/village-of-barovia/barovia-village.html'
+    detailPage: 'local-maps/village-of-barovia/index.html'
   };
 
 export const entries = {
@@ -29,8 +29,7 @@ export const entries = {
     name: "Burgomaster's Mansion",
     type: 'location',
     description: `
-      The old mansion of the burgomaster stands as a weary symbol of the village’s fading leadership.
-      Its walls are worn, and grief has settled deep into its halls.
+    The old mansion of the burgomaster.
     `,
     parent: 'baroviaVillage'
   },
@@ -40,7 +39,7 @@ export const entries = {
     name: 'Blood on the Vine Tavern',
     type: 'location',
     description: `
-      A dark tavern where wine, whispers, and uneasy silence mix beneath heavy shadows.
+      A dark tavern where wine, whispers, and uneasy silence mix.
     `,
     parent: 'baroviaVillage'
   },
@@ -50,7 +49,7 @@ export const entries = {
     name: "Bildrath's Mercantile",
     type: 'location',
     description: `
-      A cramped and overpriced store where necessity outweighs fairness.
+      A cramped and overpriced shop.
     `,
     parent: 'baroviaVillage'
   },
@@ -60,7 +59,7 @@ export const entries = {
     name: 'Ismark Kolyanovich',
     type: 'npc',
     description: `
-      The son of the late burgomaster. Burdened by duty, fear, and the weight of protecting his sister.
+      Tired fella
     `,
     parent: 'baroviaVillage'
   },
@@ -70,7 +69,7 @@ export const entries = {
     name: 'Ireena Kolyana',
     type: 'npc',
     description: `
-      A strong-willed young woman marked by Strahd’s attention and central to Barovia’s tragedy.
+      Woman
     `,
     parent: 'baroviaVillage'
   }

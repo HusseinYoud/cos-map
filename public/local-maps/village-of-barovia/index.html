@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Local Map</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+  />
+  <link rel="stylesheet" href="../shared/local-map.css" />
+</head>
+<body>
+  <div class="top-left-controls">
+    <a href="#" id="back-link" class="nav-btn">Back to world map</a>
+  </div>
+
+  <div id="map"></div>
+
+  <button id="reopen-panel-btn" class="panel-reopen-btn" hidden>
+    Open Panel
+  </button>
+
+  <aside id="info-panel" class="info-panel">
+    <button id="collapse-panel-btn" class="panel-collapse-btn">
+      Close
+    </button>
+
+    <div id="panel-content"></div>
+  </aside>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="./data.js"></script>
+  <script src="../shared/local-map.js"></script>
+</body>
+</html>

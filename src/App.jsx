@@ -13,26 +13,56 @@ function getIconPath(type) {
     case "town":
     case "village":
     case "settlement":
+      return "/icons/town-icon.png";
+
+    case "misc":
+      return "/icons/misc-icon.png";
+
+    case "quest":
+      return "/icons/quest-icon.jpg";
+
     default:
-      return `${BASE_URL}icons/town-icon.png`;
+      return "/icons/town-icon.png";
   }
 }
 
-function createLocationIcon(type = "town") {
+function createLocationIcon(type = "town", size = 28) {
+  const haloSize = size;
+  const ringSize = Math.round(size * 0.78);
+  const coreSize = Math.round(size * 0.5);
+
   return L.divIcon({
     className: "custom-marker-wrapper",
     html: `
-      <div class="custom-marker">
-        <div class="marker-halo"></div>
-        <div class="marker-ring"></div>
-        <div class="marker-core">
-          <img src="${getIconPath(type)}" alt="${type}" />
+      <div
+        class="custom-marker"
+        style="width:${size}px; height:${size}px;"
+      >
+        <div
+          class="marker-halo"
+          style="width:${haloSize}px; height:${haloSize}px;"
+        ></div>
+
+        <div
+          class="marker-ring"
+          style="width:${ringSize}px; height:${ringSize}px;"
+        ></div>
+
+        <div
+          class="marker-core"
+          style="width:${coreSize}px; height:${coreSize}px;"
+        >
+          <img
+            src="${getIconPath(type)}"
+            alt="${type}"
+            style="width:${coreSize}px; height:${coreSize}px;"
+          />
         </div>
       </div>
     `,
-    iconSize: [28, 28],
-    iconAnchor: [14, 14],
-    popupAnchor: [0, -12],
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+    popupAnchor: [0, -Math.round(size * 0.45)],
   });
 }
 
@@ -45,6 +75,13 @@ const playerCharacters = [
 ];
 
 export default function App() {
+  function getMarkerSize(zoom) {
+  const baseSize = 30;
+  const scale = Math.pow(1.2, zoom);
+  const size = baseSize * scale;
+
+  return Math.max(12, Math.min(42, Math.round(size)));
+}
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
 
@@ -53,64 +90,84 @@ export default function App() {
   const [debugCoords, setDebugCoords] = useState(null);
  const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
-  useEffect(() => {
-    if (mapInstanceRef.current) return;
+useEffect(() => {
+  if (mapInstanceRef.current) return;
 
-    const map = L.map(mapRef.current, {
-      crs: L.CRS.Simple,
-      minZoom: -2.5,
-      maxZoom: 3,
+  const map = L.map(mapRef.current, {
+    crs: L.CRS.Simple,
+    minZoom: -3,
+    maxZoom: 3,
+  });
+
+  mapInstanceRef.current = map;
+
+  const imageWidth = 5025;
+  const imageHeight = 3225;
+  const bounds = [[0, 0], [imageHeight, imageWidth]];
+
+  L.imageOverlay(`${BASE_URL}barovia-map.jpg`, bounds).addTo(map);
+  map.fitBounds(bounds);
+
+  const markers = [];
+
+  locations.forEach((location) => {
+    if (location.x == null || location.y == null) return;
+
+    const marker = L.marker([location.y, location.x], {
+      icon: createLocationIcon(location.type, getMarkerSize(map.getZoom())),
+    }).addTo(map);
+
+    markers.push({
+      marker,
+      type: location.type,
     });
 
-    mapInstanceRef.current = map;
+    const shortText =
+      location.shortDescription ||
+      location.description ||
+      "";
 
-    const imageWidth = 5025;
-    const imageHeight = 3225;
-    const bounds = [[0, 0], [imageHeight, imageWidth]];
-
-    L.imageOverlay(`${BASE_URL}barovia-map.jpg`, bounds).addTo(map);
-    map.fitBounds(bounds);
-
-    map.on("click", (e) => {
-      setDebugCoords({
-        x: Math.round(e.latlng.lng),
-        y: Math.round(e.latlng.lat),
-      });
-    });
-
-    locations.forEach((location) => {
-      if (location.x == null || location.y == null) return;
-
-      const marker = L.marker([location.y, location.x], {
-        icon: createLocationIcon(location.type),
-      }).addTo(map);
-
-      const shortText =
-        location.shortDescription ||
-        location.description ||
-        "";
-
-      marker.bindPopup(`
-        <div>
-          <h3 style="margin:0 0 0.5rem 0;">${location.name}</h3>
-          <div style="font-size:0.85rem; color:#666; margin-bottom:0.5rem;">
-            ${location.type}
-          </div>
-          <p style="margin:0;">${shortText}</p>
+    marker.bindPopup(`
+      <div>
+        <h3 style="margin:0 0 0.5rem 0;">${location.name}</h3>
+        <div style="font-size:0.85rem; color:#666; margin-bottom:0.5rem;">
+          ${location.type}
         </div>
-      `);
+        <p style="margin:0;">${shortText}</p>
+      </div>
+    `);
 
-      marker.on("click", () => {
-        setSelectedEntryId(null);
-        setSelectedLocationId(location.id);
-      });
+    marker.on("click", () => {
+      setSelectedEntryId(null);
+      setSelectedLocationId(location.id);
     });
+  });
 
-    return () => {
-      map.remove();
-      mapInstanceRef.current = null;
-    };
-  }, []);
+  function updateMarkerSizes() {
+    const zoom = map.getZoom();
+    const size = getMarkerSize(zoom);
+
+    markers.forEach(({ marker, type }) => {
+      marker.setIcon(createLocationIcon(type, size));
+    });
+  }
+
+  updateMarkerSizes();
+  map.on("zoomend", updateMarkerSizes);
+
+  map.on("click", (e) => {
+    setDebugCoords({
+      x: Math.round(e.latlng.lng),
+      y: Math.round(e.latlng.lat),
+    });
+  });
+
+  return () => {
+    map.off("zoomend", updateMarkerSizes);
+    map.remove();
+    mapInstanceRef.current = null;
+  };
+}, []);
 
   const selectedLocation = selectedLocationId
     ? locations.find((loc) => loc.id === selectedLocationId)
@@ -161,7 +218,7 @@ export default function App() {
                   <td>Special / notable location</td>
                 </tr>
               <tr>
-                <td><img src={`${BASE_URL}icons/quest-icon.png`} alt="Quest Icon" style={{ width: "20px", height: "20px" }} /></td>
+                <td><img src={`${BASE_URL}icons/quest-icon.jpg`} alt="Quest Icon" style={{ width: "20px", height: "20px" }} /></td>
                 <td>Quest Icon</td>
                 <td>Important quest location</td>
               </tr>
@@ -315,7 +372,7 @@ export default function App() {
 
         <h2>{entry.name}</h2>
         <div className="entry-type">{entry.type}</div>
-        <p>{entry.description || "No description available."}</p>
+        <p>{entry.shortDescription || entry.description || "No description available."}</p>
 
         <hr />
 
