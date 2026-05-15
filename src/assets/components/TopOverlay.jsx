@@ -87,20 +87,41 @@ export default function TopOverlay() {
         <button onClick={() => togglePanel("journal")}>Party Journal</button>
       </div>
 
-      {openPanel === "quests" && (
-        <div className="overlay-panel">
-          <h3>Active Quests</h3>
+    {openPanel === "quests" && (
+      <div className="overlay-panel">
+        <h3>Active Quests</h3>
 
-          {quests
-            .filter((quest) => quest.status.toLowerCase() === "active")
-            .map((quest) => (
-              <details key={quest.id} className="quest-entry">
-                <summary>{quest.title}</summary>
-                <p>{quest.summary}</p>
+        {quests
+          .filter((quest) => quest.status.toLowerCase() === "active")
+          .map((quest) => {
+            const isRedacted = quest.redacted === true;
+
+            const displayedTitle = isRedacted ? "?" : quest.title;
+            const displayedSummary = isRedacted
+              ? ["A quest taken/found, but what could it be?"]
+              : quest.summary;
+
+            return (
+              <details
+                key={quest.id}
+                className={`quest-entry ${isRedacted ? "quest-redacted" : ""}`}
+              >
+                <summary>{displayedTitle}</summary>
+
+                <div className="quest-summary">
+                  {Array.isArray(displayedSummary) ? (
+                    displayedSummary.map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))
+                  ) : (
+                    <p>{displayedSummary}</p>
+                  )}
+                </div>
               </details>
-            ))}
-        </div>
-      )}
+            );
+          })}
+      </div>
+    )}
 
       {openPanel === "travel" && (
         <div className="overlay-panel">

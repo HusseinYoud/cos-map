@@ -9,7 +9,7 @@ export const vallaki = {
   longDescription: `
     Big town`,
   noteworthyLocations: [
-
+    { id: "wachterhaus", name: "Wachterhaus" }
   ],
   noteworthyNpcs: [
 
@@ -43,10 +43,10 @@ export const entries = {
     id: "wachterhaus",
     name: "Wachterhaus",
     type: "location",
-    description: `
-      Wachterhaus is the center of Lady Wachter’s influence.
-      Behind its respectable face lies ambition, secret loyalties, and dangerous political intent.
-    `,
+    description: [ 
+      {type: "text",
+        text: "Wachterhaus is the center of Lady Wachter’s influence.Behind its respectable face lies ambition, secret loyalties, and dangerous political intent."
+    }],
     parent: "vallaki"
   },
 

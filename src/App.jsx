@@ -67,6 +67,51 @@ function createLocationIcon(type = "town", size = 28) {
     popupAnchor: [0, -Math.round(size * 0.45)],
   });
 }
+function DescriptionRenderer({ description }) {
+  if (!description) {
+    return <p>No description available.</p>;
+  }
+
+  if (typeof description === "string") {
+    return <p>{description}</p>;
+  }
+
+  if (Array.isArray(description)) {
+    return (
+      <div className="description-text">
+        {description.map((block, index) => {
+          if (typeof block === "string") {
+            return <p key={index}>{block}</p>;
+          }
+
+          if (block.type === "text") {
+            return <p key={index}>{block.text}</p>;
+          }
+
+          if (block.type === "redacted") {
+            if (block.revealed) {
+              return <p key={index}>{block.text}</p>;
+            }
+
+            const length = block.length ?? Math.min(block.text.length, 80);
+
+            return (
+              <p key={index}>
+                <span className="redacted">
+                  {"█".repeat(length)}
+                </span>
+              </p>
+            );
+          }
+
+          return null;
+        })}
+      </div>
+    );
+  }
+
+  return <p>No description available.</p>;
+}
 
 const playerCharacters = [
   { name: "Sir Lloyd", class: "Fighter / Warlock", level: "5/3" },
@@ -293,7 +338,7 @@ useEffect(() => {
         
         <h2>{location.name}</h2>
         <div className="entry-type">{location.type}</div>
-        <p>{longText}</p>
+        <DescriptionRenderer description={longText} />
 
         <hr />
 
@@ -362,30 +407,36 @@ useEffect(() => {
     );
   }
 
-  function renderEntryPanel(entry) {
-    return (
-      <>
-        <button
-          className="back-btn"
-          onClick={() => setSelectedEntryId(null)}
-        >
-          Back
-        </button>
+function renderEntryPanel(entry) {
+  const entryText =
+    entry.longDescription ||
+    entry.shortDescription ||
+    entry.description ||
+    "No description available.";
 
-        <h2>{entry.name}</h2>
-        <div className="entry-type">{entry.type}</div>
-        <p>{entry.shortDescription || entry.description || "No description available."}</p>
+  return (
+    <>
+      <button
+        className="back-btn"
+        onClick={() => setSelectedEntryId(null)}
+      >
+        Back
+      </button>
 
-        <hr />
+      <h2>{entry.name}</h2>
+      <div className="entry-type">{entry.type}</div>
+      <DescriptionRenderer description={entryText} />
 
-        <section>
-          <h3>Debug Coordinates</h3>
-          <p>x: {debugCoords?.x ?? "-"}</p>
-          <p>y: {debugCoords?.y ?? "-"}</p>
-        </section>
-      </>
-    );
-  }
+      <hr />
+
+      <section>
+        <h3>Debug Coordinates</h3>
+        <p>x: {debugCoords?.x ?? "-"}</p>
+        <p>y: {debugCoords?.y ?? "-"}</p>
+      </section>
+    </>
+  );
+}
 
   return (
     <div className="app-shell">

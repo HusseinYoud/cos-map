@@ -109,7 +109,56 @@
     const size = baseSize * scale;
     return Math.max(16, Math.min(52, Math.round(size)));
   }
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
 
+function descriptionToHtml(description) {
+  if (!description) {
+    return "<p>No description available.</p>";
+  }
+
+  if (typeof description === "string") {
+    return `<p>${escapeHtml(description)}</p>`;
+  }
+
+  if (Array.isArray(description)) {
+    return description
+      .map((block) => {
+        if (typeof block === "string") {
+          return `<p>${escapeHtml(block)}</p>`;
+        }
+
+        if (block.type === "text") {
+          return `<p>${escapeHtml(block.text)}</p>`;
+        }
+
+        if (block.type === "redacted") {
+          if (block.revealed) {
+            return `<p>${escapeHtml(block.text)}</p>`;
+          }
+
+          const length = block.length ?? Math.min(block.text.length, 80);
+
+          return `
+            <p>
+              <span class="redacted">${"█".repeat(length)}</span>
+            </p>
+          `;
+        }
+
+        return "";
+      })
+      .join("");
+  }
+
+  return "<p>No description available.</p>";
+}
   function renderOverviewPanel() {
     const legendRows = (config.iconLegend || [])
       .map(
@@ -155,7 +204,7 @@
     panelContent.innerHTML = `
       <h2>${config.title || "Local Map"}</h2>
       <div class="entry-type">Local Map</div>
-      <p>${config.description || "No description available."}</p>
+      ${descriptionToHtml(config.description || "No description available.")}
 
       <div class="sub-panel">
         <h3>Map Guide</h3>
@@ -221,7 +270,12 @@
 
       <h2>${location.name}</h2>
       <div class="entry-type">${location.type || "location"}</div>
-      <p>${location.longDescription || location.shortDescription || "No description available."}</p>
+    ${descriptionToHtml(
+    location.longDescription ||
+    location.shortDescription ||
+    location.description ||
+    "No description available."
+  )}
 
       <div class="sub-panel">
         <h3>Related NPCs</h3>
@@ -253,7 +307,7 @@
 
       <h2>${npc.name}</h2>
       <div class="entry-type">NPC</div>
-      <p>${npc.description || "No description available."}</p>
+      ${descriptionToHtml(npc.description || "No description available.")}
 
       <div class="sub-panel" id="debug-coordinates">
         <h3>Debug Coordinates</h3>
