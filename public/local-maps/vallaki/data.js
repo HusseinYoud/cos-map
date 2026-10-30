@@ -1,7 +1,7 @@
 window.LOCAL_MAP_CONFIG = {
   title: "Vallaki",
   description: "This is the zoomed-in local map for Vallaki.",
-  image: "./vallaki-map.jpg",
+  image: "../../maps/vallaki-map.jpg",
   imageWidth: 1950,
   imageHeight: 1200,
   minZoom: -2,

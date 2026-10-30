@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { locations, entries } from "./data/locations.js";
+import { locations, entries } from "../data/locations.js";
 import "./App.css";
-import TopOverlay from "./assets/components/TopOverlay";
+import TopOverlay from "../assets/components/TopOverlay.jsx";
 
 
 const BASE_URL = import.meta.env.BASE_URL;
@@ -152,7 +152,7 @@ useEffect(() => {
   const imageHeight = 3225;
   const bounds = [[0, 0], [imageHeight, imageWidth]];
 
-  L.imageOverlay(`${BASE_URL}barovia-map.jpg`, bounds).addTo(map);
+  L.imageOverlay(`${BASE_URL}maps/barovia-map.jpg`, bounds).addTo(map);
   map.fitBounds(bounds);
 
   const markers = [];

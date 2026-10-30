@@ -1,7 +1,7 @@
 window.LOCAL_MAP_CONFIG = {
   title: "Village of Barovia",
   description: "This is the zoomed-in local map for the Village of Barovia.",
-  image: "./barovia-village.jpg",
+  image: "../../maps/barovia-village.jpg",
   imageWidth: 1950,
   imageHeight: 2475,
   minZoom: -2,
