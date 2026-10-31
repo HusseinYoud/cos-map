@@ -1,0 +1,164 @@
+.campaign-map-page {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  background: #111;
+  color: #eee;
+  font-family: Georgia, serif;
+}
+
+.campaign-map-page .campaign-map-canvas {
+  width: 100%;
+  height: 100%;
+  background: #171717;
+}
+
+.campaign-map-page button,
+.campaign-map-page .campaign-world-link {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #777;
+  border-radius: 6px;
+  background: #252525;
+  color: #fff;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.campaign-map-page button:hover,
+.campaign-map-page .campaign-world-link:hover {
+  background: #414141;
+}
+
+.campaign-map-page .campaign-world-link {
+  position: absolute;
+  left: 55px;
+  top: 15px;
+  z-index: 1000;
+}
+
+.campaign-map-page .campaign-panel {
+  box-sizing: border-box;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: min(420px, calc(100vw - 30px));
+  max-height: calc(100% - 30px);
+  overflow-y: auto;
+  padding: 1rem;
+  background: rgba(17, 17, 17, 0.97);
+  color: #eee;
+  border: 1px solid #68604c;
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+.campaign-map-page .campaign-panel h1 {
+  font-size: 1.5rem;
+}
+
+.campaign-map-page .campaign-panel h2 {
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.campaign-map-page .campaign-panel p {
+  line-height: 1.5;
+}
+
+.campaign-map-page .campaign-panel li {
+  margin-bottom: 0.5rem;
+}
+
+.campaign-map-page .campaign-panel-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.campaign-map-page .campaign-reopen {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  z-index: 1000;
+}
+
+.campaign-map-page .campaign-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.campaign-map-page .campaign-legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.campaign-map-page .campaign-inventory {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.campaign-map-page .campaign-inventory th,
+.campaign-map-page .campaign-inventory td {
+  padding: 0.7rem 0.35rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #555;
+}
+
+.campaign-map-page .campaign-inventory td:nth-child(2) {
+  white-space: nowrap;
+}
+
+.campaign-map-page .campaign-inventory small {
+  display: block;
+  margin-top: 0.3rem;
+}
+
+.campaign-map-page .campaign-coordinates {
+  margin-top: 1.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #555;
+}
+
+.campaign-map-page .content-hidden {
+  color: #080808;
+  background: #080808;
+  border-radius: 3px;
+}
+
+.campaign-map-page .campaign-marker {
+  background: transparent;
+  border: 0;
+}
+
+.campaign-map-page .campaign-marker-ring {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #e2cb8a;
+  border-radius: 50%;
+  background: rgba(20, 20, 20, 0.7);
+  box-shadow: 0 0 10px rgba(255, 210, 110, 0.3);
+}
+
+.campaign-map-page .campaign-marker img {
+  width: 65%;
+  height: 65%;
+  object-fit: contain;
+}
+
+@media (max-width: 700px) {
+  .campaign-map-page .campaign-panel {
+    top: 65px;
+    max-height: calc(100% - 80px);
+  }
+}

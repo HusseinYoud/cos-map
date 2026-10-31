@@ -1,0 +1,22 @@
+import type { NPC } from "../../domain/models/npc";
+import npc0 from "../npcs/imported/urwin-martikov";
+import npc1 from "../npcs/imported/danika-martikov";
+import npc2 from "../npcs/imported/lady-wachter";
+import npc3 from "../npcs/imported/father-lucian-petrovich";
+import npc4 from "../npcs/imported/milivoj";
+import npc5 from "../npcs/imported/vasili-von-holtz";
+import npc6 from "../npcs/imported/arasek";
+import npc7 from "../npcs/imported/henrik-van-der-voort";
+import npc8 from "../npcs/imported/blinsky";
+import npc9 from "../npcs/imported/burgomaster-vargas";
+import npc10 from "../npcs/imported/izek-strazni";
+import npc11 from "../npcs/imported/victor-vallakovich";
+import npc12 from "../npcs/imported/katya-felraya";
+import npc13 from "../npcs/imported/ismark";
+import npc14 from "../npcs/imported/ireena";
+import npc15 from "../npcs/imported/lydia-vallakovich";
+import npc16 from "../npcs/imported/nikolai-wachter";
+import npc17 from "../npcs/imported/karl-wachter";
+import npc18 from "../npcs/imported/rictavio";
+
+export const importedNPCs: NPC[] = [npc0, npc1, npc2, npc3, npc4, npc5, npc6, npc7, npc8, npc9, npc10, npc11, npc12, npc13, npc14, npc15, npc16, npc17, npc18];

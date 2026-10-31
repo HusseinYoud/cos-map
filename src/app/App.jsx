@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { locations, entries } from "../data/locations.js";
+import { locations, entries } from "../data/world-map.js";
 import "./App.css";
+import { playerCharacters } from "../content/party/characters.js";
 import TopOverlay from "../assets/components/TopOverlay.jsx";
-
+import DescriptionRenderer from "../shared/components/Description.jsx";
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -67,59 +68,8 @@ function createLocationIcon(type = "town", size = 28) {
     popupAnchor: [0, -Math.round(size * 0.45)],
   });
 }
-function DescriptionRenderer({ description }) {
-  if (!description) {
-    return <p>No description available.</p>;
-  }
 
-  if (typeof description === "string") {
-    return <p>{description}</p>;
-  }
 
-  if (Array.isArray(description)) {
-    return (
-      <div className="description-text">
-        {description.map((block, index) => {
-          if (typeof block === "string") {
-            return <p key={index}>{block}</p>;
-          }
-
-          if (block.type === "text") {
-            return <p key={index}>{block.text}</p>;
-          }
-
-          if (block.type === "redacted") {
-            if (block.revealed) {
-              return <p key={index}>{block.text}</p>;
-            }
-
-            const length = block.length ?? Math.min(block.text.length, 80);
-
-            return (
-              <p key={index}>
-                <span className="redacted">
-                  {"█".repeat(length)}
-                </span>
-              </p>
-            );
-          }
-
-          return null;
-        })}
-      </div>
-    );
-  }
-
-  return <p>No description available.</p>;
-}
-
-const playerCharacters = [
-  { name: "Sir Lloyd", class: "Fighter / Warlock", level: "5/3" },
-  { name: "Torinn", class: "Paladin", level: "8" },
-  { name: "Renoux", class: "Cleric", level: "8" },
-  { name: "Talgrim", class: "Bard", level: "8" },
-  { name: "Quinn", class: "Wizard", level: "8" },
-];
 
 export default function App() {
   function getMarkerSize(zoom) {
