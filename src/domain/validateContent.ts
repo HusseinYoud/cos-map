@@ -38,7 +38,40 @@ export function validateContent(content: Content): void {
   uniqueIds("NPCs", content.npcs);
   uniqueIds("Maps", content.maps);
 
+  const locationById = new Map(
+    content.locations.map((location) => [location.id, location])
+  );
+
   for (const location of content.locations) {
+    if (location.parentLocationId) {
+      const parent = locationById.get(location.parentLocationId);
+
+      if (!parent) {
+        throw new Error(`${location.id}: unknown parent "${location.parentLocationId}".`);
+      }
+
+      if (
+        location.areaId &&
+        parent.id !== location.areaId &&
+        parent.areaId !== location.areaId
+      ) {
+        throw new Error(`${location.id}: parent belongs to another area.`);
+      }
+
+      const visited = new Set<string>();
+      let ancestor: Place | undefined = location;
+
+      while (ancestor) {
+        if (visited.has(ancestor.id)) {
+          throw new Error(`${location.id}: cycle in parent locations.`);
+        }
+        visited.add(ancestor.id);
+        ancestor = ancestor.parentLocationId
+          ? locationById.get(ancestor.parentLocationId)
+          : undefined;
+      }
+    }
+
     if (location.areaId && !locationIds.has(location.areaId)) {
       throw new Error(
         `${location.id}: unknown area "${location.areaId}".`
@@ -95,6 +128,20 @@ export function validateContent(content: Content): void {
   }
 
   for (const npc of content.npcs) {
+    if (npc.portrait) {
+      const src = npc.portrait.src;
+      if (
+        !src.trim() ||
+        src !== src.trim() ||
+        src.startsWith("/") ||
+        src.includes(":") ||
+        src.includes("\\") ||
+        src.split("/").some((part) => part === ".." || part === ".")
+      ) {
+        throw new Error(`${npc.id}: portrait must use a public-relative path.`);
+      }
+    }
+
     const linkedIds = new Set<string>();
 
     for (const link of npc.locationLinks) {

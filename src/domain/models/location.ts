@@ -7,6 +7,7 @@ export interface Location {
   name: string;
   description: Description;
   areaId?: string;
+  parentLocationId?: string;
   inventory?: StockEntry[];
   services?: ServiceOffer[];
 }

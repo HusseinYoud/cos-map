@@ -1,0 +1,37 @@
+.npc-portrait {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 2px solid #b5a06c;
+  border-radius: 50%;
+  color: #eadbb5;
+  background: radial-gradient(circle at 35% 25%, #4b4335, #181713);
+  font-family: Georgia, serif;
+  font-weight: bold;
+  object-fit: cover;
+  object-position: center;
+}
+
+.npc-portrait--large { width: 144px; height: 144px; font-size: 2.5rem; }
+.npc-portrait--small { width: 36px; height: 36px; font-size: 0.85rem; }
+
+.campaign-map-page .campaign-npc-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-align: left;
+}
+
+.campaign-map-page .campaign-npc-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.campaign-map-page .campaign-npc-profile h1 { margin: 0; }

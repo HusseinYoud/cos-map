@@ -7,6 +7,7 @@ const location: Place = {
   "name": "The Apostles Legs",
   "kind": "shop",
   "areaId": "vallaki",
+  parentLocationId: "MoonlitStreet",
   "description": {
     "summary": "A letter delivery service and paper shop.",
     "blocks": [

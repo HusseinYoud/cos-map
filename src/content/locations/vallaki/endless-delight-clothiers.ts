@@ -7,6 +7,7 @@ const location: Place = {
   "name": "The Endless Delight Clothiers",
   "kind": "shop",
   "areaId": "vallaki",
+  parentLocationId: "MoonlitStreet",
   "description": {
     "summary": "A clothier selling clothing, light armor and winter equipment.",
     "blocks": [

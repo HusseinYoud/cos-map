@@ -17,3 +17,11 @@ export function getLocationsInArea(
     (location) => location.areaId === areaId
   );
 }
+export function getChildLocations(
+  locations: readonly Place[],
+  parentLocationId: string
+): Place[] {
+  return locations.filter(
+    (location) => location.parentLocationId === parentLocationId
+  );
+}

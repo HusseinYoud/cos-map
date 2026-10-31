@@ -6,6 +6,7 @@ const location: Place = {
   "name": "The Straight Arrow",
   "kind": "shop",
   "areaId": "vallaki",
+  parentLocationId: "MoonlitStreet",
   "description": {
     "summary": "A shop selling bows, crossbows and ammunition.",
     "blocks": [

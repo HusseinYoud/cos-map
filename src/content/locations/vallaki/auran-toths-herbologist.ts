@@ -6,6 +6,7 @@ const location: Place = {
   "name": "Auran Toth's Herbologist",
   "kind": "shop",
   "areaId": "vallaki",
+  parentLocationId: "MoonlitStreet",
   "description": {
     "summary": "An herbologist selling plants, potions and ingredients.",
     "blocks": [

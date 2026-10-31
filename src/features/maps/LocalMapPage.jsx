@@ -4,6 +4,8 @@ import "leaflet/dist/leaflet.css";
 
 import { locations, npcs, items } from "../../content";
 import { getNPCsAtLocation } from "../../domain/queries/npcs";
+import { getChildLocations } from "../../domain/queries/locations";
+import NPCPortrait from "../../shared/components/NPCPortrait";
 
 import ContentDescription from "../../shared/components/ContentDescription";
 import ShopInventory from "../shops/ShopInventory";
@@ -73,6 +75,10 @@ export default function LocalMapPage({ definition, initialLocationId }) {
     ...areaLocations.map((location) => location.id),
   ]);
 
+  const overviewLocations = areaLocations.filter(
+    (location) => !location.parentLocationId || !areaIds.has(location.parentLocationId)
+  );
+
   const areaNPCs = npcs.filter((npc) =>
     npc.locationLinks.some((link) => areaIds.has(link.locationId))
   );
@@ -90,6 +96,14 @@ export default function LocalMapPage({ definition, initialLocationId }) {
   const relatedNPCs = selectedLocation
     ? getNPCsAtLocation(npcs, selectedLocation.id)
     : [];
+
+  const childLocations = selectedLocation
+    ? getChildLocations(locations, selectedLocation.id)
+    : [];
+
+  const parentLocation = selectedLocation?.parentLocationId
+    ? locationById.get(selectedLocation.parentLocationId)
+    : undefined;
 
   useEffect(() => {
     const map = L.map(mapElement.current, {
@@ -242,7 +256,7 @@ export default function LocalMapPage({ definition, initialLocationId }) {
               <h2>Locations and nearby shops</h2>
 
               <ul>
-                {areaLocations.map((location) => (
+                {overviewLocations.map((location) => (
                   <li key={location.id}>
                     <button onClick={() => showLocation(location.id)}>
                       {location.name}
@@ -256,7 +270,8 @@ export default function LocalMapPage({ definition, initialLocationId }) {
               <ul>
                 {areaNPCs.map((npc) => (
                   <li key={npc.id}>
-                    <button onClick={() => showNPC(npc.id)}>
+                    <button className="campaign-npc-button" onClick={() => showNPC(npc.id)}>
+                      <NPCPortrait npc={npc} size="small" />
                       {npc.name}
                     </button>
                   </li>
@@ -274,10 +289,28 @@ export default function LocalMapPage({ definition, initialLocationId }) {
                 description={selectedLocation.description}
               />
 
-              {!definition.markers.some(
-                (marker) => marker.locationId === selectedLocation.id
-              ) && (
-                <p>This location has no marker on this local map.</p>
+              {parentLocation && (
+                <p>
+                  Located in: {" "}
+                  <button onClick={() => showLocation(parentLocation.id)}>
+                    {parentLocation.name}
+                  </button>
+                </p>
+              )}
+
+              {childLocations.length > 0 && (
+                <section>
+                  <h2>Places here</h2>
+                  <ul>
+                    {childLocations.map((location) => (
+                      <li key={location.id}>
+                        <button onClick={() => showLocation(location.id)}>
+                          {location.name}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
               )}
 
               <h2>Related NPCs</h2>
@@ -286,7 +319,8 @@ export default function LocalMapPage({ definition, initialLocationId }) {
                 <ul>
                   {relatedNPCs.map((npc) => (
                     <li key={npc.id}>
-                      <button onClick={() => showNPC(npc.id)}>
+                      <button className="campaign-npc-button" onClick={() => showNPC(npc.id)}>
+                        <NPCPortrait npc={npc} size="small" />
                         {npc.name}
                       </button>
                     </li>
@@ -312,7 +346,10 @@ export default function LocalMapPage({ definition, initialLocationId }) {
 
           {selectedNPC && (
             <>
-              <h1>{selectedNPC.name}</h1>
+              <header className="campaign-npc-profile">
+                <NPCPortrait npc={selectedNPC} />
+                <h1>{selectedNPC.name}</h1>
+              </header>
 
               <ContentDescription
                 description={selectedNPC.description}

@@ -7,6 +7,7 @@ const location: Place = {
   "name": "The Cracked Anvil",
   "kind": "shop",
   "areaId": "vallaki",
+  parentLocationId: "MoonlitStreet",
   "description": {
     "summary": "A smithy offering riding equipment, traps and metalworking services.",
     "blocks": [

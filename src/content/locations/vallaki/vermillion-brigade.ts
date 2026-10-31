@@ -5,6 +5,7 @@ const location: Place = {
   "name": "Vermillion Brigade",
   "kind": "site",
   "areaId": "vallaki",
+  parentLocationId: "MoonlitStreet",
   "description": {
     "summary": "The guildhall of Vallaki's military force and hunters.",
     "blocks": [

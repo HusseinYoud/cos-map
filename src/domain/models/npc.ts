@@ -14,9 +14,16 @@ export interface LocationLink {
   note?: string;
 }
 
+export interface NPCPortrait {
+  // Path relative to public/, for example portraits/npcs/bowen.jpg.
+  src: string;
+  alt?: string;
+}
+
 export interface NPC {
   id: string;
   name: string;
   description: Description;
+  portrait?: NPCPortrait;
   locationLinks: LocationLink[];
 }

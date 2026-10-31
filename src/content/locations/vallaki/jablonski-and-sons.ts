@@ -6,6 +6,7 @@ const location: Place = {
   "name": "Jablonski and Sons",
   "kind": "shop",
   "areaId": "vallaki",
+  parentLocationId: "MoonlitStreet",
   "description": {
     "summary": "A smithy selling weapons and armor.",
     "blocks": [
